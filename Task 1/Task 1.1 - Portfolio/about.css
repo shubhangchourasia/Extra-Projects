@@ -1,0 +1,163 @@
+body {
+  background: #202020;
+}
+.partition {
+  color: white;
+  margin-top: 30px;
+  letter-spacing: 4px;
+  text-align: center;
+  font-size: 25px;
+  /* text-decoration: underline 3px #ffdf6c;
+  text-underline-offset: 10px; */
+}
+ol {
+  list-style: none;
+}
+
+ol li {
+  position: relative;
+  margin: 0;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  top: 0px;
+  font-size: 18px;
+  color: white;
+}
+
+ol li::after {
+  content: "";
+  background-color: #757373;
+  position: absolute;
+  bottom: 0;
+  top: 10px;
+  left: 5px;
+  width: 3px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+ol li::before {
+  content: "";
+  border: 2px solid #757373;
+  border-radius: 50%;
+  position: absolute;
+  left: 0px;
+  height: 10px;
+  width: 10px;
+}
+
+/* Education CSS */
+
+.education {
+  flex-basis: 100%;
+  position: relative;
+  align-items: center;
+  width: auto;
+  padding: 0 5%;
+  margin: 30px 0 60px 0;
+  display: flex;
+
+  justify-content: space-between;
+}
+.edu_content {
+  border-radius: 15px;
+  padding: 30px;
+  /* box-shadow: 10px 5px 10px 0 rgba(0, 0, 0, 0.2); */
+  margin: 0 2%;
+  border: 2px #ffdf6c solid;
+  height: auto;
+  width: 300px;
+}
+
+.edu_text {
+  /* color: #202020; */
+  /* font-size: 15px; */
+  line-height: 1.5;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+  padding-top: 10px;
+}
+.listhead {
+  color: white;
+  font-size: 18px;
+  padding-bottom: 20px;
+}
+
+/* Contact CSS */
+
+.contact {
+  border: 2px #ffdf6c solid;
+  padding: 5% 5%;
+  margin: 30px 7% 60px 7%;
+  border-radius: 15px;
+}
+.cont-card {
+  justify-content: space-around;
+  display: flex;
+  padding-top: 25px;
+}
+.cont-text {
+  color: white;
+  font-size: 18px;
+}
+
+/* Icon CSS */
+.icon {
+  /* position: relative; */
+  height: 40px;
+  width: 40px;
+  margin: 0 5px;
+  display: inline-flex;
+  border-radius: 50%;
+}
+.icon i {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+  font-size: 25px;
+}
+
+.lin {
+  color: #0e76a8;
+}
+.fb {
+  color: #4267b2;
+}
+.git {
+  color: #3e7baa;
+}
+@media (max-width: 700px) {
+  nav {
+    top: 0;
+  }
+  body .partition {
+    font-size: 18px;
+    padding-top: 70px;
+  }
+  .education {
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 5% 10%;
+    display: block;
+  }
+  .edu_content {
+    width: 100%;
+    display: block;
+  }
+
+  .education .edu_content {
+    margin-bottom: 20px;
+  }
+  /* Contact CSS */
+  .cont-card {
+    flex-direction: column;
+    /* align-items: center; */
+  }
+  .cont-text {
+    padding: 10px 0;
+    text-align: center;
+  }
+}

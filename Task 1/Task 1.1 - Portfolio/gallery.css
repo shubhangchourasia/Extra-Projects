@@ -1,0 +1,44 @@
+/* Gallery CSS */
+.card {
+  width: 100%;
+  height: auto;
+  margin: 4% auto;
+  /* box-shadow: 1px 5px 8px #202020; */
+  cursor: pointer;
+}
+
+#gallery {
+  column-count: 4;
+  column-gap: 20px;
+  margin: 0 3%;
+}
+.r2-c2 {
+  margin-top: -2%;
+}
+.r2-c2 a i {
+  font-size: 25px;
+  color: #e1306c;
+}
+
+@media (max-width: 700px) {
+  #gallery {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  nav {
+    top: 0;
+  }
+  .r2 {
+    padding-top: 70px;
+  }
+}
+@media (max-width: 500px) {
+  #gallery {
+    column-count: 1;
+  }
+  .card {
+    width: 80%;
+    display: flex;
+    align-items: center;
+  }
+}

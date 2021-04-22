@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Management</title>
+    <script type="text/javascript" src="projectmanagement.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="projectmanagement.css" />
+  </head>
+
+  <body onload="readAll()">
+    <h1 class="topHeading">PROJECT MANAGEMENT</h1>
+    <div class="container">
+      <form>
+        <label for="projectname" class="fieldlabel">Project Title</label>
+
+        <input type="text" id="projectname" class="getValue fieldinput" />
+
+        <label for="category" class="fieldlabel">Category</label>
+
+        <select id="category" name="category" class="getValue fieldinput">
+          <option value="Web Development">Web Development</option>
+          <option value="Mobile Development">Mobile Development</option>
+          <option value="Data Science">Data Science</option>
+          <option value="API Development">API Development</option>
+          <option value="Cloud Computing">Cloud Computing</option>
+        </select>
+
+        <label for="deadline" class="fieldlabel">Deadline</label>
+
+        <input type="date" id="deadline" class="getValue fieldinput" />
+
+        <label for="nofuser" class="fieldlabel"
+          >Enter number of project members.</label
+        >
+
+        <input
+          type="number"
+          id="nofuser"
+          class="getValue fieldinput"
+          onchange="addMember()"
+        />
+
+        <div id="allMembers"></div>
+
+        <label for="description" class="fieldlabel">Description</label>
+
+        <textarea
+          id="description"
+          placeholder="Write project description.."
+          style="height: 200px"
+          class="getValue fieldinput"
+        ></textarea>
+
+        <button onclick="addEntry()" type="button" class="btn" id="addItem">
+          Add Data
+        </button>
+        <button
+          type="button"
+          class="btn cancelbtn"
+          id="cancelEdit"
+          onclick="window.location.reload()"
+        >
+          Cancel
+        </button>
+        <button
+          onclick="updateItems()"
+          type="button"
+          class="btn"
+          id="updateItem"
+        >
+          Update Data
+        </button>
+      </form>
+    </div>
+
+    <!-- Table from here -->
+    <table>
+      <caption>
+        ALL PROJECTS
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Project Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">Deadline</th>
+          <th scope="col">Details</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <!-- Modal from here -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close" onclick="closeModal()">&times;</span> <br />
+
+        <div id="modalData"></div>
+      </div>
+    </div>
+  </body>
+</html>

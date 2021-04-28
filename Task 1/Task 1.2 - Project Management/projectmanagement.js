@@ -279,3 +279,37 @@ function closeModal() {
   var modal = document.getElementById("myModal");
   modal.style.display = "none";
 }
+
+//Funtion to export data
+function download() {
+  var objectStore = db.transaction("Project").objectStore("Project");
+
+  objectStore.openCursor().onsuccess = function (event) {
+    var cursor = event.target.result;
+
+    if (cursor) {
+      expData[cursor.value.projectname] = cursor.value;
+
+      cursor.continue();
+    } else expo();
+  };
+}
+var expData = {};
+
+function expo() {
+  var data =
+    "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expData));
+
+  var a = document.createElement("a");
+  a.href = "data:" + data;
+  a.download = "data.txt";
+
+  var button = document.createElement("button");
+  button.type = "button";
+  button.classList.add("btn");
+  button.innerHTML = "Export Data";
+  button.style.backgroundColor = " rgb(39, 116, 218)";
+  a.appendChild(button);
+
+  document.getElementById("down").appendChild(a);
+}

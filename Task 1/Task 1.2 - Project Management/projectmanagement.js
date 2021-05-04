@@ -10,6 +10,10 @@ request.onupgradeneeded = function (event) {
     db.createObjectStore("Project", { keyPath: "projectname" });
     console.log("Database Created");
   }
+  if (!db.objectStoreNames.contains("ArchivedProject")) {
+    db.createObjectStore("ArchivedProject", { keyPath: "projectname" });
+    console.log("Database Created");
+  }
 };
 
 request.onsuccess = function () {
@@ -80,6 +84,9 @@ function readAll() {
     var detailsicon = document.createElement("i");
     detailsicon.classList.add("fas");
     detailsicon.classList.add("fa-info-circle");
+    var archiveicon = document.createElement("i");
+    archiveicon.classList.add("fas");
+    archiveicon.classList.add("fa-plus-circle");
 
     var tr;
     if (cursor) {
@@ -98,7 +105,7 @@ function readAll() {
       var tabCell = tr.insertCell(-1);
       detailsicon.setAttribute("details", cursor.value.projectname);
       detailsicon.onclick = function (event) {
-        openModal(event);
+        openModal(event, "Project");
       };
       tabCell.setAttribute("data-label", "Details");
       tabCell.id = "detailsicon";
@@ -124,6 +131,17 @@ function readAll() {
       tabCell.appendChild(deleteicon);
       tabCell.setAttribute("data-label", "Delete");
       tabCell.id = "deleteicon";
+
+      var tabCell = tr.insertCell(-1);
+      archiveicon.setAttribute("archive-data", cursor.value.projectname);
+      archiveicon.onclick = function (event) {
+        archiveItem(event);
+      };
+      tabCell.setAttribute("data-label", "Archive");
+      tabCell.id = "archiveicon";
+
+      tabCell.appendChild(archiveicon);
+
       table.appendChild(tr);
 
       cursor.continue();
@@ -150,6 +168,8 @@ function editItem(event) {
   document.getElementById("impbtn").style.display = "none";
   document.getElementById("updateItem").style.display = "block";
   document.getElementById("cancelEdit").style.display = "block";
+  document.getElementById("showArchived").style.display = "none";
+  document.getElementById("hideArchived").style.display = "none";
 
   //Main code to edit
   let dataTask = event.target.getAttribute("edit-data");
@@ -209,7 +229,7 @@ function addMember() {
 }
 
 //Functions for modal
-function openModal(event) {
+function openModal(event, docName) {
   var modal = document.getElementById("myModal");
   modal.style.display = "block";
 
@@ -220,8 +240,8 @@ function openModal(event) {
   //Main code to data to modal
   let dataTask = event.target.getAttribute("details");
 
-  var transaction = db.transaction("Project", "readwrite");
-  var objectStoreRequest = transaction.objectStore("Project").get(dataTask);
+  var transaction = db.transaction(docName, "readwrite");
+  var objectStoreRequest = transaction.objectStore(docName).get(dataTask);
   objectStoreRequest.onsuccess = function (event) {
     var result = Object.values(objectStoreRequest.result);
 
@@ -355,4 +375,121 @@ async function importtxt(event) {
       alert("Error occured or Unsupported data. Check format of data.");
     }
   }
+}
+
+//Function to archive item.
+function archiveItem(event) {
+  let dataTask = event.target.getAttribute("archive-data");
+  // console.log("dataTask", dataTask);
+
+  var transaction = db.transaction("Project", "readwrite");
+  var objectStoreRequest = transaction.objectStore("Project").get(dataTask);
+
+  objectStoreRequest.onsuccess = function (event) {
+    var result = objectStoreRequest.result;
+    // console.log("result", result);
+    request = db
+      .transaction("ArchivedProject", "readwrite")
+      .objectStore("ArchivedProject")
+      .add(result);
+  };
+  request = transaction.objectStore("Project").delete(dataTask);
+  transaction.oncomplete = function () {
+    window.location.reload();
+  };
+}
+
+//Function to read archived items.
+function readArchive() {
+  var objectStore = db
+    .transaction("ArchivedProject")
+    .objectStore("ArchivedProject");
+
+  objectStore.openCursor().onsuccess = function (event) {
+    var cursor = event.target.result;
+    var table = document.getElementById("archiveTableBody");
+
+    var detailsicon = document.createElement("i");
+    detailsicon.classList.add("fas");
+    detailsicon.classList.add("fa-info-circle");
+    var unarchiveicon = document.createElement("i");
+    unarchiveicon.classList.add("fas");
+    unarchiveicon.classList.add("fa-minus-circle");
+
+    var tr;
+    if (cursor) {
+      tr = table.insertRow(-1);
+
+      for (const [key, value] of Object.entries(cursor.value)) {
+        if (key == "projectname" || key == "deadline" || key == "category") {
+          var tabCell = tr.insertCell(-1);
+          tabCell.innerHTML = value;
+          if (key == "projectname")
+            tabCell.setAttribute("data-label", "Project Title");
+          if (key == "deadline") tabCell.setAttribute("data-label", "Deadline");
+          if (key == "category") tabCell.setAttribute("data-label", "Category");
+        }
+      }
+      var tabCell = tr.insertCell(-1);
+      detailsicon.setAttribute("details", cursor.value.projectname);
+      detailsicon.onclick = function (event) {
+        openModal(event, "ArchivedProject");
+      };
+      tabCell.setAttribute("data-label", "Details");
+      tabCell.id = "detailsicon";
+      tabCell.appendChild(detailsicon);
+
+      var tabCell = tr.insertCell(-1);
+      unarchiveicon.setAttribute("unarchive-data", cursor.value.projectname);
+      unarchiveicon.onclick = function (event) {
+        unarchiveItem(event);
+      };
+      tabCell.setAttribute("data-label", "Archive");
+      tabCell.id = "unarchiveicon";
+
+      tabCell.appendChild(unarchiveicon);
+
+      table.appendChild(tr);
+
+      cursor.continue();
+    }
+  };
+}
+
+//Function to unarchive item.
+function unarchiveItem(event) {
+  let dataTask = event.target.getAttribute("unarchive-data");
+
+  var transaction = db.transaction("ArchivedProject", "readwrite");
+  var objectStoreRequest = transaction
+    .objectStore("ArchivedProject")
+    .get(dataTask);
+
+  objectStoreRequest.onsuccess = function (event) {
+    var result = objectStoreRequest.result;
+
+    request = db
+      .transaction("Project", "readwrite")
+      .objectStore("Project")
+      .add(result);
+  };
+  request = transaction.objectStore("ArchivedProject").delete(dataTask);
+  transaction.oncomplete = function () {
+    window.location.reload();
+  };
+}
+
+//Function to show archive table
+function showArchive() {
+  document.getElementById("projectTable").style.display = "none";
+  document.getElementById("archiveTable").style.display = "table";
+  document.getElementById("hideArchived").style.display = "block";
+  document.getElementById("showArchived").style.display = "none";
+}
+//Function to hide archive table
+function hideArchive() {
+  document.getElementById("projectTable").style.display = "table";
+  document.getElementById("archiveTable").style.display = "none";
+  document.getElementById("hideArchived").style.display = "none";
+  document.getElementById("showArchived").style.display = "block";
 }

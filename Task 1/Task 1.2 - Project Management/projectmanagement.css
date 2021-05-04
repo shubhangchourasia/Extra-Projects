@@ -49,7 +49,7 @@ label {
 .container {
   border-radius: 5px;
   padding: 20px;
-  margin: 2% 25% 5%;
+  margin: 2% 24% 5%;
   color: #1d1d1d;
 }
 
@@ -83,7 +83,7 @@ label {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  float: right;
+  float: left;
   width: auto;
   margin: 10px;
 }
@@ -101,11 +101,20 @@ label {
 #imptxt {
   display: none;
 }
-#downloadData{
-  background-color: rgb(39, 116, 218)
+#downloadData {
+  background-color: rgb(39, 116, 218);
 }
-#impbtn{
-  background-color: rgb(153, 58, 241)
+#impbtn {
+  background-color: rgb(153, 58, 241);
+}
+#hideArchived {
+  display: none;
+}
+#showArchived {
+  background-color: rgb(252, 189, 17);
+}
+#hideArchived {
+  background-color: rgb(255, 104, 17);
 }
 @media (max-width: 500px) {
   .btn {
@@ -150,7 +159,9 @@ table th {
   letter-spacing: 2px;
   text-transform: uppercase;
 }
-
+#archiveTable {
+  display: none;
+}
 @media (max-width: 740px) {
   table {
     border: 0;
@@ -194,6 +205,9 @@ table th {
   }
 }
 @media (max-width: 1000px) {
+   table {
+     width: 100%;
+   }
   table th,
   table td {
     padding: 10px 20px;
@@ -277,13 +291,17 @@ table th {
 /* Icon CSS */
 #detailsicon,
 #editicon,
-#deleteicon {
+#deleteicon,
+#archiveicon,
+#unarchiveicon {
   text-align: center;
 }
+
 #detailsicon i,
 #editicon i,
-#deleteicon i {
-  text-align: center;
+#deleteicon i,
+#archiveicon i,
+#unarchiveicon i {
   font-size: 18px;
 }
 
@@ -299,10 +317,18 @@ table th {
 i:hover {
   cursor: pointer;
 }
+#archiveicon i {
+  color: rgb(252, 189, 17);
+}
+#unarchiveicon i {
+  color: rgb(255, 104, 17);
+}
 @media (max-width: 740px) {
   #detailsicon,
   #editicon,
-  #deleteicon {
+  #deleteicon,
+  #archiveicon,
+  #unarchiveicon {
     text-align: right;
   }
 }
@@ -324,3 +350,5 @@ i:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: black;
 }
+
+

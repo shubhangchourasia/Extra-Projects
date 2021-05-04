@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="projectmanagement.css" />
   </head>
 
-  <body onload="readAll();download()">
+  <body onload="readAll();download();readArchive()">
     <h1 class="topHeading">PROJECT MANAGEMENT</h1>
     <div class="container">
       <form>
@@ -66,14 +66,6 @@
           Add Data
         </button>
         <button
-          type="button"
-          class="btn cancelbtn"
-          id="cancelEdit"
-          onclick="window.location.reload()"
-        >
-          Cancel
-        </button>
-        <button
           onclick="updateItems()"
           type="button"
           class="btn"
@@ -81,29 +73,57 @@
         >
           Update Data
         </button>
+        <button
+          type="button"
+          class="btn cancelbtn"
+          id="cancelEdit"
+          onclick="window.location.reload()"
+        >
+          Cancel
+        </button>
+
         <a id="down">
           <button type="button" class="btn" id="downloadData">
             Export Data
           </button></a
         >
-         <button
-         type="button" class="btn" id="impbtn"
+
+        <button
+          type="button"
+          class="btn"
+          id="impbtn"
           onclick="document.getElementById('imptxt').click()"
         >
-         Import Data
+          Import Data
         </button>
-
         <input
           type="file"
           onchange="importtxt(event)"
           id="imptxt"
           accept="text/plain"
         />
+        <button
+          type="button"
+          class="btn"
+          id="showArchived"
+          onclick="showArchive()"
+        >
+          Show Archived
+        </button>
+        <button
+          type="button"
+          class="btn"
+          id="hideArchived"
+          onclick="hideArchive()"
+        >
+          Hide Archived
+        </button>
       </form>
     </div>
+    <!-- Change -->
 
     <!-- Table from here -->
-    <table>
+    <table id="projectTable">
       <caption>
         ALL PROJECTS
       </caption>
@@ -115,9 +135,26 @@
           <th scope="col">Details</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
+          <th scope="col">Archive</th>
         </tr>
       </thead>
       <tbody id="tableBody"></tbody>
+    </table>
+    <!-- Archive table from here -->
+    <table id="archiveTable">
+      <caption>
+        ARCHIVED PROJECTS
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Project Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">Deadline</th>
+          <th scope="col">Details</th>
+          <th scope="col">Unarchive</th>
+        </tr>
+      </thead>
+      <tbody id="archiveTableBody"></tbody>
     </table>
     <!-- Modal from here -->
     <div id="myModal" class="modal">

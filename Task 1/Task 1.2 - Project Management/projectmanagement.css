@@ -97,9 +97,7 @@ label {
 .cancelbtn:focus {
   outline: #f14668 1px solid;
 }
-#impbtn {
-  cursor: pointer;
-}
+
 #imptxt {
   display: none;
 }

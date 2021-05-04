@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Management</title>
+    <title>Document</title>
     <script type="text/javascript" src="projectmanagement.js"></script>
     <link
       rel="stylesheet"
@@ -17,7 +18,7 @@
     <link rel="stylesheet" href="projectmanagement.css" />
   </head>
 
-  <body onload="readAll()">
+  <body onload="readAll();download()">
     <h1 class="topHeading">PROJECT MANAGEMENT</h1>
     <div class="container">
       <form>
@@ -80,7 +81,23 @@
         >
           Update Data
         </button>
-        <div id="down"></div>
+        <a id="down">
+          <button type="button" class="btn" id="downloadData">
+            Export Data
+          </button></a
+        >
+        <button type="button" class="btn" id="impbtn">
+          <label for="imptxt" style="padding: 0; cursor: pointer"
+            >Import Data</label
+          >
+        </button>
+
+        <input
+          type="file"
+          onchange="importtxt(event)"
+          id="imptxt"
+          accept="text/plain"
+        />
       </form>
     </div>
 

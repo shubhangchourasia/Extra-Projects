@@ -51,7 +51,11 @@ function addEntry() {
   };
 
   request.onerror = function () {
-    alert("Unable to add data or project name is already present.");
+    alert(
+      "Unable to add data or project name " +
+        newEntry.projectname +
+        " is already present."
+    );
   };
 }
 
@@ -78,9 +82,9 @@ function readAll() {
     detailsicon.classList.add("fa-info-circle");
 
     var tr;
-
     if (cursor) {
       tr = table.insertRow(-1);
+
       for (const [key, value] of Object.entries(cursor.value)) {
         if (key == "projectname" || key == "deadline" || key == "category") {
           var tabCell = tr.insertCell(-1);
@@ -142,6 +146,8 @@ function deleteItem(event) {
 function editItem(event) {
   //Code to show/hide buttons
   document.getElementById("addItem").style.display = "none";
+  document.getElementById("downloadData").style.display = "none";
+  document.getElementById("impbtn").style.display = "none";
   document.getElementById("updateItem").style.display = "block";
   document.getElementById("cancelEdit").style.display = "block";
 
@@ -300,16 +306,53 @@ function expo() {
   var data =
     "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(expData));
 
-  var a = document.createElement("a");
+  var a = document.getElementById("down");
   a.href = "data:" + data;
   a.download = "data.txt";
+}
+//Function to import data.
+async function importtxt(event) {
+  console.log(event.target.files[0]);
+  var file = event.target.files[0];
+  let text = await file.text();
+  console.log("text", text);
+  if (text == "" || text == "{}") {
+    console.log("Empty");
+  } else {
+    try {
+      var obj = JSON.parse(text);
 
-  var button = document.createElement("button");
-  button.type = "button";
-  button.classList.add("btn");
-  button.innerHTML = "Export Data";
-  button.style.backgroundColor = " rgb(39, 116, 218)";
-  a.appendChild(button);
+      const vals = Object.values(obj);
 
-  document.getElementById("down").appendChild(a);
+      var ct = 0;
+      vals.forEach((element) => {
+        request = db
+          .transaction("Project", "readwrite")
+          .objectStore("Project")
+          .add(element);
+        request.onsuccess = function () {
+          ct++;
+          console.log("Data Added", element);
+          if (ct == vals.length) {
+            alert("Data imported successfully.");
+            window.location.reload();
+          }
+        };
+
+        request.onerror = function () {
+          ct++;
+          alert(
+            "Unable to add data or project name " +
+              element.projectname +
+              " is already present."
+          );
+          if (ct == vals.length) window.location.reload();
+        };
+      });
+      console.log(ct);
+    } catch (err) {
+      console.log("err", err);
+      alert("Error occured or Unsupported data. Check format of data.");
+    }
+  }
 }

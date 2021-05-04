@@ -97,10 +97,25 @@ label {
 .cancelbtn:focus {
   outline: #f14668 1px solid;
 }
-@media (max-width: 450px) {
+#impbtn {
+  cursor: pointer;
+}
+#imptxt {
+  display: none;
+}
+#downloadData{
+  background-color: rgb(39, 116, 218)
+}
+#impbtn{
+  background-color: rgb(153, 58, 241)
+}
+@media (max-width: 500px) {
   .btn {
     width: 100%;
-    margin: 30px 5px 20px 5px;
+    margin: 0px 0px 20px 0px;
+  }
+  #description {
+    margin-bottom: 20px;
   }
 }
 /* Table from here */
@@ -151,7 +166,7 @@ table th {
   }
 
   table thead {
-       position: absolute;
+    position: absolute;
     top: -100%;
   }
 

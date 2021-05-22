@@ -16,25 +16,7 @@
     <div class="main">
       <canvas id="canvas"></canvas>
 
-      <!-- vec4 is 4 dimensional floating point vector. -->
-      <!-- poisiton is position of vertex. -->
-      <!-- modelViewMatrix is positon of model (scene). -->
-      <!-- gl_position is position of vertex after render. -->
-      <script type="x-shader/x-vertex" id="vertexShader">
-
-        void main() {
-        	vec4 modelViewPosition = modelViewMatrix * vec4( position, 1.0 );
-        	gl_PointSize = 	4.0;
-        	gl_Position = projectionMatrix * modelViewPosition;
-        }
-      </script>
-      <!-- gl_FragColor is color of each vertex. -->
-      <!-- vec4( R, G, B, alpha). -->
-      <script type="x-shader/x-fragment" id="fragmentShader">
-        void main(){
-        	gl_FragColor = vec4(0.05,0.12,0.3,0.5);
-        }
-      </script>
+    
       <div class="text">
         <h2 class="text1">SPACETIME</h2>
 

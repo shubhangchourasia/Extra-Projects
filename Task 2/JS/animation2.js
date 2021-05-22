@@ -54,13 +54,8 @@ function init() {
 
   //Adding attribute to bufferGeometry.
   bufferGeometry.addAttribute("position", attributePositions);
-
-  var shaderMaterial = new THREE.ShaderMaterial({
-    vertexShader: document.getElementById("vertexShader").textContent, //Vertex position after render.
-    fragmentShader: document.getElementById("fragmentShader").textContent, //Vertex color after render.
-    transparent: true,
-  });
-  dots = new THREE.Points(bufferGeometry, shaderMaterial); //Finally adding geometry and material to create a model.
+  var material = new THREE.PointsMaterial({ size: 0.22, color: 0x2d2585 });
+  dots = new THREE.Points(bufferGeometry, material); //Finally adding geometry and material to create a model.
 
   scene.add(dots);
 }
